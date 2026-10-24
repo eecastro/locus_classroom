@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Locus of Control: Psych 100 In-Class Activity</title>
+<meta name="description" content="A student-adapted version of Rotter's (1966) Internal-External Locus of Control Scale, with national comparisons.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    color-scheme: light;
+    --bg: #EEF2F5;
+    --surface: #FFFFFF;
+    --ink: #18212F;
+    --muted: #556072;
+    --line: #D3DAE3;
+    --sel: #E4EAF2;
+    --int: #2B50C8;
+    --int-soft: #E2E8FA;
+    --ext: #C08200;
+    --ext-text: #855800;
+    --ext-soft: #F6EBD3;
+    --focus: #2B50C8;
+    --body: "Atkinson Hyperlegible", "Segoe UI", system-ui, -apple-system, sans-serif;
+    --display: "Bricolage Grotesque", "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      color-scheme: dark;
+      --bg: #11161F;
+      --surface: #1A222E;
+      --ink: #E8EDF3;
+      --muted: #9CA8B8;
+      --line: #2D3848;
+      --sel: #263244;
+      --int: #86A2FF;
+      --int-soft: #222E52;
+      --ext: #F0B43C;
+      --ext-text: #F3C065;
+      --ext-soft: #3A2E15;
+      --focus: #86A2FF;
+    }
+  }
+
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 1.0625rem;
+    line-height: 1.55;
+    padding: env(safe-area-inset-top, 0px) 0 env(safe-area-inset-bottom, 0px);
+  }
+  .wrap { max-width: 44rem; margin: 0 auto; padding: 1.5rem 1.25rem 4rem; }
+  h1, h2, h3 { font-family: var(--display); line-height: 1.15; margin: 0; }
+  h1 { font-size: clamp(2rem, 6vw, 2.9rem); font-weight: 800; letter-spacing: -0.02em; }
+  h2 { font-size: 1.5rem; font-weight: 600; margin-top: 2.75rem; margin-bottom: 0.75rem; }
+  h3 { font-size: 1.1rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.4rem; }
+  p { margin: 0 0 1rem; }
+  a { color: var(--int); }
+  .muted { color: var(--muted); }
+  .small { font-size: 0.92rem; }
+  [hidden] { display: none !important; }
+  :focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; border-radius: 6px; }
+
+  .course { color: var(--muted); font-size: 0.95rem; margin-bottom: 2.5rem; }
+
+  /* Intro */
+  .lead { font-size: 1.2rem; margin-top: 1rem; max-width: 36rem; }
+  .facts { margin: 1.75rem 0 2rem; padding: 0; list-style: none; border-top: 1px solid var(--line); }
+  .facts li { padding: 0.8rem 0; border-bottom: 1px solid var(--line); }
+  .facts strong { display: inline-block; min-width: 0; }
+
+  .btn {
+    font: inherit; font-weight: 700;
+    border: 0; border-radius: 999px;
+    padding: 0.85rem 1.6rem;
+    background: var(--ink); color: var(--bg);
+    cursor: pointer;
+  }
+  .btn:disabled { opacity: 0.35; cursor: not-allowed; }
+  .btn.ghost { background: transparent; color: var(--ink); border: 1.5px solid var(--line); }
+  .btn-row { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; }
+
+  /* Quiz */
+  .progress-text { display: flex; justify-content: space-between; font-size: 0.95rem; color: var(--muted); }
+  .bar { height: 6px; background: var(--line); border-radius: 999px; margin: 0.5rem 0 2.25rem; overflow: hidden; }
+  .bar span { display: block; height: 100%; width: 0; background: var(--ink); transition: width 0.25s ease; }
+  .prompt { font-family: var(--display); font-weight: 600; font-size: 1.3rem; margin-bottom: 1.25rem; }
+  .prompt:focus { outline: none; }
+  .option {
+    display: block; width: 100%;
+    text-align: left; font: inherit; font-size: 1.1rem; line-height: 1.45;
+    color: var(--ink); background: var(--surface);
+    border: 1.5px solid var(--line); border-radius: 14px;
+    padding: 1.1rem 1.2rem 1.1rem 3.2rem;
+    position: relative; cursor: pointer;
+    transition: border-color 0.15s, background-color 0.15s;
+  }
+  .option:hover { border-color: var(--muted); }
+  .option .key {
+    position: absolute; left: 1rem; top: 1.1rem;
+    width: 1.6rem; height: 1.6rem; border-radius: 50%;
+    border: 1.5px solid var(--muted);
+    display: grid; place-items: center;
+    font-size: 0.8rem; font-weight: 700; color: var(--muted);
+  }
+  .option[aria-pressed="true"] { border-color: var(--ink); background: var(--sel); }
+  .option[aria-pressed="true"] .key { background: var(--ink); border-color: var(--ink); color: var(--bg); }
+  .or {
+    display: flex; align-items: center; gap: 0.75rem;
+    color: var(--muted); font-style: italic; margin: 0.6rem 0;
+  }
+  .or::before, .or::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+  .quiz-nav { display: flex; justify-content: space-between; margin-top: 1.75rem; gap: 0.75rem; }
+  .hint { margin-top: 1.5rem; font-size: 0.9rem; color: var(--muted); }
+
+  /* Results */
+  .score-line { font-size: 1.2rem; margin-top: 1rem; }
+  .score-num { font-family: var(--display); font-weight: 800; font-size: 4.5rem; line-height: 1; letter-spacing: -0.03em; }
+  .score-num small { font-size: 1.5rem; font-weight: 600; color: var(--muted); letter-spacing: 0; }
+
+  .continuum { margin: 2.5rem 0 1rem; padding: 0 0.25rem; }
+  .track-area { position: relative; height: 9.5rem; }
+  .track {
+    position: absolute; left: 0; right: 0; top: 3.6rem; height: 14px; border-radius: 999px;
+    background: linear-gradient(90deg, var(--int), var(--ext));
+  }
+  .ticks { position: absolute; left: 0; right: 0; top: 5.2rem; height: 1rem; font-size: 0.8rem; color: var(--muted); }
+  .ticks span { position: absolute; transform: translateX(-50%); }
+  .you {
+    position: absolute; top: 0; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center;
+  }
+  .you .lbl {
+    font-weight: 700; font-size: 0.95rem; white-space: nowrap;
+    background: var(--ink); color: var(--bg); padding: 0.2rem 0.6rem; border-radius: 6px;
+  }
+  .you .stem { width: 2px; height: 1.2rem; background: var(--ink); }
+  .you .dot { width: 22px; height: 22px; border-radius: 50%; background: var(--surface); border: 4px solid var(--ink); margin-top: -2px; }
+  .cohort { position: absolute; top: 6.6rem; font-size: 0.85rem; line-height: 1.3; }
+  .cohort::before {
+    content: ""; position: absolute; top: -1.75rem; width: 2px; height: 1.6rem; background: var(--muted);
+  }
+  .cohort.left { transform: translateX(-100%); text-align: right; padding-right: 0.4rem; }
+  .cohort.left::before { right: -1px; }
+  .cohort.right { text-align: left; padding-left: 0.4rem; }
+  .cohort.right::before { left: -1px; }
+  .cohort b { display: block; }
+  .poles { display: flex; justify-content: space-between; font-weight: 700; font-size: 0.95rem; }
+  .poles .i { color: var(--int); }
+  .poles .e { color: var(--ext-text); }
+
+  .compare { margin: 1.5rem 0; border-top: 1px solid var(--line); }
+  .compare div { display: grid; grid-template-columns: 4.5rem 1fr; gap: 1rem; padding: 0.9rem 0; border-bottom: 1px solid var(--line); align-items: baseline; }
+  .compare .pct { font-family: var(--display); font-weight: 800; font-size: 1.6rem; }
+
+  .domains { margin: 1rem 0 0.5rem; }
+  .domain { display: grid; grid-template-columns: minmax(8rem, 12rem) 1fr 4.5rem; gap: 0.75rem; align-items: center; padding: 0.45rem 0; }
+  .domain .dbar { height: 10px; border-radius: 999px; background: var(--int-soft); overflow: hidden; }
+  .domain .dbar span { display: block; height: 100%; background: var(--ext); border-radius: 999px; }
+  .domain .n { font-size: 0.9rem; color: var(--muted); text-align: right; }
+  @media (max-width: 30rem) {
+    .domain { grid-template-columns: 1fr 4rem; }
+    .domain .dbar { grid-column: 1 / -1; grid-row: 2; }
+  }
+
+  .band { border-left: 4px solid var(--ink); padding: 0.25rem 0 0.25rem 1rem; margin: 1.25rem 0; }
+  .band h3 { margin-top: 0; }
+
+  details { border-top: 1px solid var(--line); padding: 0.9rem 0; }
+  details:last-of-type { border-bottom: 1px solid var(--line); }
+  summary { cursor: pointer; font-weight: 700; }
+  .review { list-style: none; padding: 0; margin: 1rem 0 0; }
+  .review li { padding: 0.7rem 0; border-bottom: 1px dashed var(--line); font-size: 0.95rem; }
+  .review li:last-child { border-bottom: 0; }
+  .tag { display: inline-block; font-size: 0.78rem; font-weight: 700; padding: 0.05rem 0.5rem; border-radius: 999px; margin-left: 0.35rem; vertical-align: 1px; }
+  .tag.i { background: var(--int-soft); color: var(--int); }
+  .tag.e { background: var(--ext-soft); color: var(--ext-text); }
+  .tag.f { background: var(--sel); color: var(--muted); }
+
+  ol.discuss { padding-left: 1.3rem; }
+  ol.discuss li { margin-bottom: 0.6rem; }
+  .refs { font-size: 0.88rem; color: var(--muted); padding-left: 1.2rem; text-indent: -1.2rem; list-style: none; }
+  .refs li { margin-bottom: 0.45rem; }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; }
+  }
+  @media print {
+    body { background: #fff; color: #000; }
+    .btn, .btn-row, .no-print { display: none !important; }
+    details { display: block; }
+    details > *:not(summary) { display: block !important; }
+  }
+</style>
+</head>
+<body>
+<main class="wrap">
+  <div class="course">Psych 100 in-class activity</div>
+
+  <!-- INTRO -->
+  <section id="intro">
+    <h1>Who’s in charge of what happens to you?</h1>
+    <p class="lead">This questionnaire is adapted for college students from Julian Rotter’s Internal–External Locus of Control Scale (1966), one of the most widely used measures in personality psychology.</p>
+    <ul class="facts">
+      <li><strong>29 pairs of statements.</strong> For each pair, pick the one you believe more. You have to choose one, even if you agree with both or neither.</li>
+      <li><strong>Answer for yourself.</strong> Go with what you actually believe, not what sounds like the “right” answer. There are no right answers.</li>
+      <li><strong>About 5 to 7 minutes.</strong> Go with your first reaction.</li>
+      <li><strong>Completely private.</strong> Everything runs in your browser. Your answers are not saved or sent anywhere, and closing the tab erases them.</li>
+    </ul>
+    <button class="btn" id="startBtn" type="button">Start the questionnaire</button>
+  </section>
+
+  <!-- QUIZ -->
+  <section id="quiz" hidden>
+    <div class="progress-text"><span id="qCount">Question 1 of 29</span><span id="qAnswered">0 answered</span></div>
+    <div class="bar" aria-hidden="true"><span id="qBar"></span></div>
+    <h2 class="prompt" id="qPrompt" tabindex="-1" style="margin-top:0">Which statement do you agree with more?</h2>
+    <div role="group" aria-labelledby="qPrompt">
+      <button class="option" id="optA" type="button" aria-pressed="false"><span class="key" aria-hidden="true">A</span><span class="txt"></span></button>
+      <div class="or" aria-hidden="true">or</div>
+      <button class="option" id="optB" type="button" aria-pressed="false"><span class="key" aria-hidden="true">B</span><span class="txt"></span></button>
+    </div>
+    <div class="quiz-nav">
+      <button class="btn ghost" id="backBtn" type="button">Back</button>
+      <button class="btn ghost" id="nextBtn" type="button">Next</button>
+      <button class="btn" id="finishBtn" type="button" hidden>See my results</button>
+    </div>
+    <p class="hint">Keyboard: press A or B to choose, and the left arrow key to go back.</p>
+  </section>
+
+  <!-- RESULTS -->
+  <section id="results" hidden>
+    <h1 id="resHead" tabindex="-1">Your results</h1>
+    <p class="score-line">You chose the external statement on</p>
+    <div class="score-num"><span id="scoreNum">0</span> <small>of 23 scored items</small></div>
+    <p class="muted small" style="margin-top:0.75rem">Six of the 29 pairs were filler items that aren’t scored. They’re there, as in Rotter’s original, so the purpose of the scale is less obvious. Scores run from 0 (most internal) to 23 (most external).</p>
+
+    <div class="continuum" role="img" id="continuum" aria-label="">
+      <div class="track-area">
+        <div class="track"></div>
+        <div class="ticks" id="ticks"></div>
+        <div class="you" id="youPin"><span class="lbl" id="youLbl">You</span><span class="stem"></span><span class="dot"></span></div>
+        <div class="cohort left" id="c1960"><b>8.7</b>US college students, 1960</div>
+        <div class="cohort right" id="c2002"><b>12.0</b>US college students, 2002</div>
+      </div>
+      <div class="poles"><span class="i">More internal</span><span class="e">More external</span></div>
+    </div>
+
+    <div class="band" id="band"></div>
+
+    <h2>How you compare nationally</h2>
+    <p>The best national benchmark comes from a meta-analysis by Twenge, Zhang, and Im (2004), which pooled 97 samples of US college students (more than 18,000 people) who took Rotter’s scale between 1960 and 2002. The average score rose from about 8.7 in 1960 to about 12.0 in 2002, a shift of roughly 0.8 standard deviations toward the external end.</p>
+    <div class="compare" id="compare"></div>
+    <p class="muted small">How these percentages are estimated: they assume scores are roughly normally distributed with a standard deviation of about 4 points, which is consistent with the published data. Because this version uses wording adapted for today’s students, treat the comparisons as approximate rather than exact.</p>
+
+    <h2>Where your beliefs about control show up</h2>
+    <p>Rotter designed the scale to measure one general expectancy, but later researchers found that people often feel differently about control in different parts of life. In particular, many people feel in charge of their own grades and relationships while feeling that politics and big institutions are out of reach. Here is how your answers split across the topics the items covered.</p>
+    <div class="domains" id="domains"></div>
+    <p class="muted small">The bar shows the share of items in each area where you chose the external statement. These groupings are for discussion only; they are too short to be reliable subscales.</p>
+
+    <h2>What locus of control means</h2>
+    <p>Locus of control is a <em>generalized expectancy</em>: your learned belief about whether outcomes in your life depend on your own behavior (internal) or on luck, fate, timing, or powerful others (external). Rotter developed the idea within social learning theory, which holds that we act based on what we expect our actions to produce. If you don’t expect effort to pay off, you have less reason to make the effort.</p>
+    <h3>What the research tends to find</h3>
+    <p>Compared with more external people, people with a more internal locus of control tend, on average, to earn somewhat higher grades, report greater job satisfaction and well-being, seek out information about their situation, and cope more actively with stress. A more external locus is linked, modestly, with higher rates of depression and anxiety and with feelings of helplessness. These are correlations. They don’t show that internality causes good outcomes; success can also make people more internal.</p>
+    <h3>Neither end is simply “better”</h3>
+    <p>A very internal outlook can turn into self-blame when something truly wasn’t your fault, such as a layoff during a recession or unfair treatment. A more external outlook can be an accurate reading of real constraints: money, discrimination, family obligations, or a job market that doesn’t reward effort evenly. Many psychologists argue the healthiest position is a realistic one: taking ownership of what you can influence while recognizing what you can’t.</p>
+
+    <h2>Culture and history</h2>
+    <p>Locus of control isn’t only an individual trait. Twenge and colleagues found that young Americans as a whole became steadily more external over four decades, and they linked the trend to rising alienation, cynicism about institutions, and a growing tendency to explain misfortune as someone else’s doing. Your score partly reflects the era you grew up in.</p>
+    <p>Culture matters too. The scale was built and validated in the United States, an individualist culture that emphasizes personal choice. In a study of more than 9,000 employees in 43 countries, Smith, Trompenaars, and Dugan (1995) found that response patterns lined up with the individualism–collectivism distinction and with differing views about the role of luck and chance. In more collectivist cultures, attributing outcomes to family, group, or circumstance can reflect a different view of the self rather than a sense of helplessness. Trends also differ across countries: a 2023 meta-analysis of Chinese college students found no shift toward externality between 2001 and 2019, unlike the US pattern (Wang &amp; Xin, 2023).</p>
+
+    <h2>Your answers</h2>
+    <details>
+      <summary>Show which answers counted as internal and external</summary>
+      <ol class="review" id="review"></ol>
+    </details>
+
+    <h2>For class discussion</h2>
+    <ol class="discuss">
+      <li>Which pair was hardest for you to choose between? What made it hard?</li>
+      <li>Find a pair where you think the “external” statement is actually more accurate for many students. What does that suggest about calling one end of the scale healthier?</li>
+      <li>US college students became more external from 1960 to 2002. What social changes might explain that? Would you predict that students in 2026 score higher or lower than in 2002, and why?</li>
+      <li>How might your locus of control show up in how you study for this course, or in how you explain a disappointing exam grade? Connect this to attribution theory or learned helplessness.</li>
+      <li>This scale forces you to pick one statement. What are the advantages of a forced-choice format, and what might it miss?</li>
+      <li>Does a scale built in the US in the 1960s measure the same thing for students from different cultural backgrounds today? How could a researcher find out?</li>
+    </ol>
+
+    <div class="btn-row no-print" style="margin-top:2rem">
+      <button class="btn" id="printBtn" type="button">Print or save as PDF</button>
+      <button class="btn ghost" id="restartBtn" type="button">Start over</button>
+    </div>
+
+    <h2>References</h2>
+    <ul class="refs">
+      <li>Benassi, V. A., Sweeney, P. D., &amp; Dufour, C. L. (1988). Is there a relation between locus of control orientation and depression? <em>Journal of Abnormal Psychology, 97</em>, 357–367.</li>
+      <li>Findley, M. J., &amp; Cooper, H. M. (1983). Locus of control and academic achievement: A literature review. <em>Journal of Personality and Social Psychology, 44</em>, 419–427.</li>
+      <li>Ng, T. W. H., Sorensen, K. L., &amp; Eby, L. T. (2006). Locus of control at work: A meta-analysis. <em>Journal of Organizational Behavior, 27</em>, 1057–1087.</li>
+      <li>Rotter, J. B. (1966). Generalized expectancies for internal versus external control of reinforcement. <em>Psychological Monographs: General and Applied, 80</em>(1), 1–28.</li>
+      <li>Smith, P. B., Trompenaars, F., &amp; Dugan, S. (1995). The Rotter locus of control scale in 43 countries: A test of cultural relativity. <em>International Journal of Psychology, 30</em>(3), 377–400.</li>
+      <li>Twenge, J. M., Zhang, L., &amp; Im, C. (2004). It’s beyond my control: A cross-temporal meta-analysis of increasing externality in locus of control, 1960–2002. <em>Personality and Social Psychology Review, 8</em>(3), 308–319.</li>
+      <li>Wang, X., &amp; Xin, Z. (2023). Cross-temporal meta-analyses of changes in the locus of control among Chinese college students: No changes were also a trend. <em>Journal of Pacific Rim Psychology, 17</em>.</li>
+    </ul>
+    <p class="muted small">Item wording on this page is an adaptation for college students that follows the structure and scoring logic of Rotter’s scale (23 scored forced-choice pairs plus 6 fillers). It is intended for classroom demonstration, not for research or clinical use.</p>
+  </section>
+</main>
+
+<script>
+(function () {
+  "use strict";
+
+  // Each item: a, b = statements; ext = which option is the external choice ("a" or "b"), or null for filler; d = domain.
+  var ITEMS = [
+    { a: "Students today do their best work when instructors give them lots of structure.", b: "Students today do their best work when instructors give them lots of freedom.", ext: null },
+    { a: "When I do poorly on an exam, it’s usually because I didn’t prepare the right way.", b: "Some exams are so unpredictable that studying hard barely makes a difference.", ext: "b", d: "school" },
+    { a: "Grades often depend more on which professor you get than on how much you learn.", b: "In most courses, the grade you get reflects the work you put in.", ext: "a", d: "school" },
+    { a: "A lot of the bad things that happen to students are just bad luck.", b: "Most of my setbacks can be traced back to choices I made.", ext: "a", d: "luck" },
+    { a: "Landing a good internship mostly comes down to preparation and persistence.", b: "Landing a good internship is mostly about knowing the right people at the right time.", ext: "b", d: "work" },
+    { a: "As a student, there’s not much I can do to change how my campus or community is run.", b: "When students organize and speak up, they can change campus and local decisions.", ext: "a", d: "society" },
+    { a: "People tend to like me when I make the effort to be a good friend.", b: "Whether people like you is mostly out of your hands.", ext: "b", d: "people" },
+    { a: "I learn best by reading and taking notes.", b: "I learn best by trying things out hands-on.", ext: null },
+    { a: "What’s going to happen in my life will happen no matter what I do.", b: "Making a decision and acting on it works better for me than waiting to see how fate plays out.", ext: "a", d: "luck" },
+    { a: "Voters, including young voters, have real influence on what governments do.", b: "A small number of powerful people run things, and ordinary people have little say.", ext: "b", d: "society" },
+    { a: "Sometimes I can’t figure out how instructors arrive at the grades they give.", b: "There’s a clear connection between how hard I study and the grades I get.", ext: "a", d: "school" },
+    { a: "Successful people mostly got there through hard work; luck played a small part.", b: "Becoming successful is largely a matter of getting the right breaks.", ext: "b", d: "work" },
+    { a: "Planning ahead usually pays off, because I can make my plans happen.", b: "It isn’t worth planning too far ahead, because so much comes down to luck.", ext: "b", d: "luck" },
+    { a: "A good class discussion teaches me more than a good lecture.", b: "A good lecture teaches me more than a good class discussion.", ext: null },
+    { a: "Recessions, wars, and global crises are things ordinary people can’t really influence.", b: "When enough people get involved, major crises can be prevented or made less severe.", ext: "a", d: "society" },
+    { a: "If someone doesn’t get along with me, I can usually figure out what’s going wrong.", b: "Some people just won’t like you, no matter how you act around them.", ext: "b", d: "people" },
+    { a: "In group projects, the grade mostly reflects how well the group organized itself.", b: "In group projects, your grade mostly depends on who you get stuck with.", ext: "b", d: "school" },
+    { a: "Day to day, it often feels like things just happen to me.", b: "Day to day, I feel like I’m the one steering where my life goes.", ext: "a", d: "luck" },
+    { a: "It’s better to know a little about a lot of things.", b: "It’s better to know a lot about one thing.", ext: null },
+    { a: "Becoming a leader, like a club president or team captain, mostly depends on ability and effort.", b: "Becoming a leader mostly depends on who you know and being in the right place.", ext: "b", d: "work" },
+    { a: "Unfairness in big institutions gets corrected when people pay attention and push back.", b: "There’s little point in trying to fight unfairness in big institutions.", ext: "b", d: "society" },
+    { a: "Finding good friends in college mostly comes down to luck, like who your roommate is or which dorm you land in.", b: "Building a good group of friends in college comes from putting yourself out there.", ext: "a", d: "people" },
+    { a: "Students who struggle in a course usually haven’t used the help that’s available to them.", b: "Students who struggle in a course are often dealing with circumstances they can’t control.", ext: "b", d: "school" },
+    { a: "I’d rather have a few close friends.", b: "I’d rather have a large circle of acquaintances.", ext: null },
+    { a: "Choosing a major often comes down to chance, like a random class you happened to take.", b: "My major and career path will mostly come from choices I deliberately make.", ext: "a", d: "luck" },
+    { a: "At most jobs, getting a raise or promotion depends mainly on how well you do the work.", b: "At most jobs, raises and promotions go to whoever the boss happens to like.", ext: "b", d: "work" },
+    { a: "Early classes are worth it because they free up the rest of the day.", b: "Later classes are worth it because I can sleep in.", ext: null },
+    { a: "Most people don’t realize how much their lives are shaped by forces they can’t control.", b: "People shape their own lives more than they give themselves credit for.", ext: "a", d: "society" },
+    { a: "When a friendship falls apart, there’s usually something I could have done differently.", b: "Friendships end for reasons nobody really controls; people just drift apart.", ext: "b", d: "people" }
+  ];
+
+  var DOMAINS = [
+    { key: "school", label: "School and grades" },
+    { key: "work", label: "Work and success" },
+    { key: "people", label: "Friends and relationships" },
+    { key: "luck", label: "Luck and life direction" },
+    { key: "society", label: "Politics and society" }
+  ];
+
+  // Twenge, Zhang & Im (2004): US college student means. SD approximated from the reported 0.80 SD shift.
+  var NORMS = { m1960: 8.70, m2002: 11.96, sd: 4.1 };
+  var MAX = 23;
+
+  var answers = new Array(ITEMS.length).fill(null);
+  var idx = 0;
+  var advanceTimer = null;
+
+  var $ = function (id) { return document.getElementById(id); };
+  var intro = $("intro"), quiz = $("quiz"), results = $("results");
+  var optA = $("optA"), optB = $("optB");
+
+  function show(section) {
+    [intro, quiz, results].forEach(function (s) { s.hidden = s !== section; });
+    window.scrollTo(0, 0);
+  }
+
+  function answeredCount() {
+    return answers.filter(function (x) { return x !== null; }).length;
+  }
+
+  function renderQuestion(moveFocus) {
+    var item = ITEMS[idx];
+    $("qCount").textContent = "Question " + (idx + 1) + " of " + ITEMS.length;
+    $("qAnswered").textContent = answeredCount() + " answered";
+    $("qBar").style.width = (answeredCount() / ITEMS.length * 100) + "%";
+    optA.querySelector(".txt").textContent = item.a;
+    optB.querySelector(".txt").textContent = item.b;
+    optA.setAttribute("aria-pressed", answers[idx] === "a" ? "true" : "false");
+    optB.setAttribute("aria-pressed", answers[idx] === "b" ? "true" : "false");
+    $("backBtn").disabled = idx === 0;
+    var last = idx === ITEMS.length - 1;
+    $("nextBtn").hidden = last;
+    $("nextBtn").disabled = answers[idx] === null;
+    $("finishBtn").hidden = !last;
+    $("finishBtn").disabled = answeredCount() < ITEMS.length;
+    if (moveFocus) $("qPrompt").focus();
+  }
+
+  function choose(letter) {
+    answers[idx] = letter;
+    renderQuestion(false);
+    clearTimeout(advanceTimer);
+    if (idx < ITEMS.length - 1) {
+      advanceTimer = setTimeout(function () { idx++; renderQuestion(true); }, 280);
+    } else {
+      $("finishBtn").focus();
+    }
+  }
+
+  // Standard normal CDF (Abramowitz & Stegun approximation)
+  function phi(z) {
+    var t = 1 / (1 + 0.2316419 * Math.abs(z));
+    var d = 0.3989423 * Math.exp(-z * z / 2);
+    var p = d * t * (0.3193815 + t * (-0.3565638 + t * (1.781478 + t * (-1.821256 + t * 1.330274))));
+    return z > 0 ? 1 - p : p;
+  }
+  function pctMoreExternalThan(score, mean) {
+    var p = Math.round(phi((score - mean) / NORMS.sd) * 100);
+    return Math.min(99, Math.max(1, p));
+  }
+
+  function bandFor(score) {
+    if (score <= 5) return {
+      title: "Strongly internal",
+      text: "You consistently chose statements that credit effort, preparation, and personal choice. That outlook tends to go with persistence and active problem-solving. The thing to watch for is self-blame: when something genuinely wasn’t in your control, an internal lens can make it feel like a personal failure."
+    };
+    if (score <= 9) return {
+      title: "Leaning internal",
+      text: "You mostly see outcomes as tied to your own actions, with some room for luck and circumstance. Your score is close to the average US college student in the early 1960s, and more internal than the typical student in recent decades."
+    };
+    if (score <= 13) return {
+      title: "Middle of the range",
+      text: "You see a real mix of personal effort and outside forces shaping what happens to you. Your score sits near the average for US college students in the early 2000s. Look at the topic breakdown below: many people in this range feel in control in some areas of life and not in others."
+    };
+    if (score <= 17) return {
+      title: "Leaning external",
+      text: "You often see outcomes as shaped by luck, timing, or people with more power. Sometimes that’s an accurate reading of real constraints. It can also make effort feel less worthwhile, so it’s worth asking which of your answers reflect actual barriers and which reflect habits of explanation."
+    };
+    return {
+      title: "Strongly external",
+      text: "You consistently chose statements that credit luck, fate, or powerful others. That can protect you from unfair self-blame, and it may reflect real experiences with things outside your control. Research links strongly external beliefs with feeling stuck or helpless, so it’s worth noticing the specific areas where you do have influence."
+    };
+  }
+
+  function showResults() {
+    var score = 0;
+    var byDomain = {};
+    DOMAINS.forEach(function (d) { byDomain[d.key] = { ext: 0, n: 0 }; });
+
+    var reviewHTML = "";
+    ITEMS.forEach(function (item, i) {
+      var pick = answers[i];
+      var chosenText = pick === "a" ? item.a : item.b;
+      var tag;
+      if (item.ext === null) {
+        tag = '<span class="tag f">filler, not scored</span>';
+      } else {
+        var isExt = pick === item.ext;
+        if (isExt) score++;
+        byDomain[item.d].n++;
+        if (isExt) byDomain[item.d].ext++;
+        tag = isExt ? '<span class="tag e">external</span>' : '<span class="tag i">internal</span>';
+      }
+      reviewHTML += "<li>" + escapeHTML(chosenText) + tag + "</li>";
+    });
+    $("review").innerHTML = reviewHTML;
+
+    $("scoreNum").textContent = score;
+
+    // Continuum
+    var pos = function (v) { return (v / MAX * 100) + "%"; };
+    var ticks = "";
+    [0, 5, 10, 15, 20, 23].forEach(function (t) { ticks += '<span style="left:' + pos(t) + '">' + t + "</span>"; });
+    $("ticks").innerHTML = ticks;
+    var youPin = $("youPin");
+    youPin.style.left = pos(score);
+    $("youLbl").textContent = "You: " + score;
+    // keep the label inside the track at the extremes
+    youPin.style.transform = score <= 1 ? "translateX(-11px)" : score >= MAX - 1 ? "translateX(calc(-100% + 11px))" : "translateX(-50%)";
+    youPin.style.alignItems = score <= 1 ? "flex-start" : score >= MAX - 1 ? "flex-end" : "center";
+    $("c1960").style.left = pos(NORMS.m1960);
+    $("c2002").style.left = pos(NORMS.m2002);
+    $("continuum").setAttribute("aria-label",
+      "Scale from 0, most internal, to 23, most external. Your score is " + score +
+      ". The average US college student scored 8.7 in 1960 and 12.0 in 2002.");
+
+    // Band
+    var b = bandFor(score);
+    $("band").innerHTML = "<h3>" + b.title + "</h3><p>" + b.text + "</p>";
+
+    // Comparisons
+    var p60 = pctMoreExternalThan(score, NORMS.m1960);
+    var p02 = pctMoreExternalThan(score, NORMS.m2002);
+    $("compare").innerHTML =
+      '<div><span class="pct">' + p60 + '%</span><span>Your score is more external than about ' + p60 + "% of US college students in the early 1960s, when Rotter first published the scale.</span></div>" +
+      '<div><span class="pct">' + p02 + '%</span><span>Your score is more external than about ' + p02 + "% of US college students in 2002, the most recent year in the national meta-analysis.</span></div>";
+
+    // Domains
+    var dHTML = "";
+    DOMAINS.forEach(function (d) {
+      var v = byDomain[d.key];
+      var w = v.n ? (v.ext / v.n * 100) : 0;
+      dHTML += '<div class="domain"><span>' + d.label + '</span>' +
+        '<span class="dbar" role="img" aria-label="' + v.ext + " of " + v.n + ' external"><span style="width:' + w + '%"></span></span>' +
+        '<span class="n">' + v.ext + " of " + v.n + "</span></div>";
+    });
+    $("domains").innerHTML = dHTML;
+
+    show(results);
+    $("resHead").focus();
+  }
+
+  function escapeHTML(s) {
+    return s.replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+
+  // Events
+  $("startBtn").addEventListener("click", function () { idx = 0; show(quiz); renderQuestion(true); });
+  optA.addEventListener("click", function () { choose("a"); });
+  optB.addEventListener("click", function () { choose("b"); });
+  $("backBtn").addEventListener("click", function () {
+    clearTimeout(advanceTimer);
+    if (idx > 0) { idx--; renderQuestion(true); }
+  });
+  $("nextBtn").addEventListener("click", function () {
+    if (answers[idx] !== null && idx < ITEMS.length - 1) { idx++; renderQuestion(true); }
+  });
+  $("finishBtn").addEventListener("click", function () {
+    if (answeredCount() === ITEMS.length) showResults();
+  });
+  $("printBtn").addEventListener("click", function () { window.print(); });
+  $("restartBtn").addEventListener("click", function () {
+    answers = new Array(ITEMS.length).fill(null);
+    idx = 0;
+    show(intro);
+    $("startBtn").focus();
+  });
+  document.addEventListener("keydown", function (e) {
+    if (quiz.hidden || e.metaKey || e.ctrlKey || e.altKey) return;
+    var k = e.key.toLowerCase();
+    if (k === "a" || k === "1") { e.preventDefault(); choose("a"); }
+    else if (k === "b" || k === "2") { e.preventDefault(); choose("b"); }
+    else if (e.key === "ArrowLeft") { e.preventDefault(); $("backBtn").click(); }
+    else if (e.key === "ArrowRight") { e.preventDefault(); $("nextBtn").click(); }
+  });
+})();
+</script>
+</body>
+</html>
